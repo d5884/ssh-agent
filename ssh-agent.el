@@ -24,7 +24,6 @@
 ;; using with tramp:
 ;;   (defadvice tramp-send-command (before ssh-agent-with-tramp activate)
 ;;    (ssh-agent-add-key))
-;;   
 
 ;;; Code:
 
@@ -148,7 +147,7 @@ do nothing."
     (ssh-agent--read-env-from-file))
   
   (or (ssh-agent-live-p)
-      (let ((result (with-temp-buffer 
+      (let ((result (with-temp-buffer
 		      (when (eq 0 (call-process
 				   ssh-agent-program nil (current-buffer) nil
 				   (if (eq ssh-agent-env-file-type 'sh)
