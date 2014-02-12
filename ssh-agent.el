@@ -144,7 +144,9 @@ If `ssh-agent-run-on-demand' is non-nil, run `ssh-agent-run' as necessary."
 				(save-match-data
 				  (cond
 				   ((string-match ssh-agent-add-prompt-regexp msg)
-				    (let ((password (read-passwd msg)))
+				    (let ((password (read-passwd
+						     (replace-regexp-in-string
+						      "\\`[\r\n\s]*" "" msg))))
 				      (send-string proc password)
 				      (clear-string password)
 				      (send-string proc "\n")))
