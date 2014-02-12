@@ -125,6 +125,7 @@ A default value is determined by `shell-file-name'."
   "^\\(Enter passphrase\\|Bad passphrase, try again\\) for [^:]*:"
   "Regexp for `ssh-add' passphrase prompt.")
 
+;;;###autoload
 (defun ssh-agent-add-key (&optional key-file)
   "Add KEY-FILE into `ssh-agent'.
 If KEY-FILE is alreadly registered, do nothing.
@@ -158,6 +159,7 @@ If `ssh-agent-run-on-demand' is non-nil, run `ssh-agent-run' as necessary."
 	    (sleep-for 0 1))
 	  (eq 0 (process-exit-status process))))))
 
+;;;###autoload
 (defun ssh-agent-delete-key (&optional key-file)
   "Delete KEY-FILE from `ssh-agent'.
 If KEY-FILE is nil, delete default key.
@@ -173,6 +175,7 @@ If KEY-FILE is non-nil without string, delete all key."
 		(t
 		 '("-D"))))))
 
+;;;###autoload
 (defun ssh-agent-run ()
   "Run `ssh-agent' as necessary.
 If environment variable `SSH_AGENT_PID' and `SSH_AUTH_SOCK' is set,
@@ -196,6 +199,7 @@ do nothing."
 	    (add-hook 'kill-emacs-hook 'ssh-agent-kill))
 	  t))))
 
+;;;###autoload
 (defun ssh-agent-kill ()
   "Kill `ssh-agent' process."
   (interactive)
@@ -208,6 +212,7 @@ do nothing."
       (delete-file ssh-agent-env-file))
     ))
 
+;;;###autoload
 (defun ssh-agent-live-p ()
   "Non-nil when `ssh-agent' is live and accessible."
   (and
@@ -215,6 +220,7 @@ do nothing."
    (getenv "SSH_AUTH_SOCK")
    (eq 0 (signal-process (string-to-number (getenv "SSH_AGENT_PID")) 0))))
 
+;;;###autoload
 (defun ssh-agent-registered-p (&optional key-file)
   "Non-nil when KEY-FILE is registered on `ssh-agent'.
 If key-file is nil, return t when any key is registered."
