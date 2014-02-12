@@ -21,8 +21,23 @@
 
 ;;; Commentary:
 
-;; using with tramp:
+;; This package supports to use `ssh-agent' from Emacs at ease.
+;; If you want to use ssh or scp with ssh-agent from Emacs, call `ssh-agent-add-key'.
+;;  * `ssh-agent' will be automatically invoked if it isn't run yet,
+;;    and be killed when Emacs is exited.
+;;  * If the private key is already regisitered, do nothing, so you can call
+;;    simply on every point it is likely to be required.
+
+;;; Example:
+
+;; * Using with TRAMP:
 ;;   (defadvice tramp-send-command (before ssh-agent-with-tramp activate)
+;;    (ssh-agent-add-key))
+
+;; * Using with Magit:
+;;   (defadvice magit-push-dwim (before ssh-agent-with-magit-push activate)
+;;    (ssh-agent-add-key))
+;;   (defadvice magit-fetch (before ssh-agent-with-magit-fetch activate)
 ;;    (ssh-agent-add-key))
 
 ;;; Code:
