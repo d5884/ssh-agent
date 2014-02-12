@@ -47,50 +47,68 @@
 
 (defcustom ssh-agent-program (executable-find "ssh-agent")
   "Path for `ssh-agent' executable."
-  :group 'ssh-agent)
+  :group 'ssh-agent
+  :type 'file)
 
 (defcustom ssh-agent-add-program (executable-find "ssh-add")
   "Path for `ssh-add' executable."
-  :group 'ssh-agent)
+  :group 'ssh-agent
+  :type 'file)
 
 (defcustom ssh-agent-kill-on-exit t
-  "If this value is non-nil, the `ssh-agent' invoked by the Emacs will be kill
-when `kill-emacs' is called."
-  :group 'ssh-agent)
+  "If this value is non-nil, the `ssh-agent' invoked by the Emacs will be kill when `kill-emacs' is called."
+  :group 'ssh-agent
+  :type '(choice (const :tag "Yes" t)
+		 (const :tag "No" nil)))
 
 (defcustom ssh-agent-run-on-demand t
-  "If non-nil, `ssh-agent-add-key' calls `ssh-agent-run' if `ssh-agent' isn't
-invoked yet."
-  :group 'ssh-agent)
+  "If non-nil, `ssh-agent-add-key' calls `ssh-agent-run' if `ssh-agent' isn't invoked yet."
+  :group 'ssh-agent
+  :type '(choice (const :tag "Yes" t)
+		 (const :tag "No" nil)))
 
 (defcustom ssh-agent-use-env-file t
-  "If this value is non-nil, `ssh-agent-run' will use `ssh-agent-env-file'
-for the environment values of `ssh-agent'.
+  "If this value is non-nil, `ssh-agent-run' will use `ssh-agent-env-file'.
+Set non-nil if you need to access `ssh-agent' invoked by Emacs/other process from
+ other process/Emacs.
 
-Set non-nil if you need to access ssh-agent invoked by Emacs/other process from
- other process/Emacs."
-  :group 'ssh-agent)
+See `ssh-agent-env-file'."
+  :group 'ssh-agent
+  :type '(choice (const :tag "Yes" t)
+		 (const :tag "No" nil)))
 
 (defcustom ssh-agent-env-file (expand-file-name "ssh-agent-env" "~/.ssh")
   "File name for ssh-agent process information file.
 `ssh-agent-run' treats this file as an output of `ssh-agent -s' or
- `ssh-agent -c'."
-  :group 'ssh-agent)
+ `ssh-agent -c'.
+
+If you want to access invoked by Emacs from other process,
+load this file on other process like \". ~/.ssh/ssh-agent-env\".
+If you want to access invoked by other process from Emacs,
+write this file on other process like \"ssh-agent -s > ~/.ssh/ssh-agent-env\"."
+  :group 'ssh-agent
+  :type 'file)
 
 (defcustom ssh-agent-env-file-type (cond ((string-match-p "csh" shell-file-name)
 					  'csh)
 					 (t
 					  'sh))
-  "Type of `ssh-agent-env-file'. this accepts below:
-sh - file is born shell script.
-csh - file is c-shell script.
+  "Type of `ssh-agent-env-file'.
+This accepts below:
+sh - file is bourne shell script (sh/bash/ksh/zsh).
+ An output of `ssh-agent -s'
+csh - file is c-shell script (csh/tcsh).
+ An output of `ssh-agent -c'
 
 A default value is determined by `shell-file-name'."
-  :group 'ssh-agent)
+  :group 'ssh-agent
+  :type '(choice (const :tag "C-shell type (csh/tcsh)" csh)
+		 (const :tag "Bourne shell type (sh/bash/ksh/zsh)" sh)))
 
 (defcustom ssh-agent-env-file-coding-system nil
   "Coding system for `ssh-agent-env-file'."
-  :group 'ssh-agent)
+  :group 'ssh-agent
+  :type 'coding-system)
 
 (defvar ssh-agent-env-file-mode #o600
   "File mode for `ssh-agent-env-file'.")
